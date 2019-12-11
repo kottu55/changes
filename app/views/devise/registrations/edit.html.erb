@@ -8,26 +8,41 @@
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>
 
+  <div class="field">
+    <%= f.label :account_name %><br />
+    <%= f.text_field :account_name, autofocus: true, autocomplete: "account_name" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :introduction %><br />
+    <%= f.text_field :introduction, autofocus: true, autocomplete: "introduction" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :area_code %><br />
+    <%= f.select :area_code, User.area_codes.keys, {prompt: '選択してください'} %>
+  </div>
+rails generate migration AddDetailsToTitles price:integer author:string
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
   <% end %>
 
   <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+    <%= f.label :password %> <i>(変更しない場合は空白のままにしてください。)</i><br />
     <%= f.password_field :password, autocomplete: "new-password" %>
     <% if @minimum_password_length %>
       <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
+      <em><%= @minimum_password_length %> 文字以上</em>
     <% end %>
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation %><br />
+    <%= f.label :password（確認用） %><br />
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
   <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+    <%= f.label :current_password %> <i>(変更を確認するには現在のパスワードが必要です)</i><br />
     <%= f.password_field :current_password, autocomplete: "current-password" %>
   </div>
 
@@ -36,8 +51,8 @@
   </div>
 <% end %>
 
-<h3>Cancel my account</h3>
+<h3>退会</h3>
 
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+<p>しますか？ <%= button_to "はい", registration_path(resource_name), data: { confirm: "この操作は取り消しできません。本当に退会しますか？" }, method: :delete %></p>
 
 <%= link_to "Back", :back %>

@@ -1,8 +1,15 @@
 <h1>users/show</h1>
-
 <%= @user.account_name %>
-<% if @user.last_name.blank? %>
-<%= @user.last_name %>
+<p><%= @user.area_code %></p>
+<p><%= @user.introduction %></p>
+<% if current_user == @user %>
+<p><%= link_to "編集", edit_user_registration_path %></p>
+<p><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></p>
 <% end %>
-<%= @user.last_name %>
-<%= link_to "戻る", users_path %>
+<div>
+    <p>投稿</p>
+    <p>フォロー中</p>
+    <p>フォロワー</p>
+    <p>お気に入り</p>
+</div>
+<p><%= link_to "戻る", users_path %></p>
