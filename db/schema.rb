@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_11_083651) do
+ActiveRecord::Schema.define(version: 2019_12_11_161057) do
 
   create_table "posts", force: :cascade do |t|
     t.text "before_img_id"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2019_12_11_083651) do
     t.integer "page_views"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
   end
 
   create_table "users", force: :cascade do |t|

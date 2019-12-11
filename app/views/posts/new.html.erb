@@ -1,0 +1,12 @@
+<h1>posts/new</h1>
+
+<%= form_with model: @post do |f| %>
+    <p>ビフォー<%= f.attachment_field :before_img %></p>
+    <p>アフター<%= f.attachment_field :after_img %></p>
+    <p><%= f.datetime_select(:time_length, prompt:"--",use_month_numbers:true, start_year:1, end_year:20, date_separator:'/') %></p>
+    <p>説明文<%= f.text_field :caption %></p>
+    category_id<br>
+    owned_tag_id<br>
+    page_views<br>
+    <%= f.submit %>
+<% end %>
