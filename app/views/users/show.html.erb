@@ -1,1 +1,8 @@
 <h1>users/show</h1>
+
+<%= @user.account_name %>
+<% if @user.last_name.blank? %>
+<%= @user.last_name %>
+<% end %>
+<%= @user.last_name %>
+<%= link_to "戻る", users_path %>

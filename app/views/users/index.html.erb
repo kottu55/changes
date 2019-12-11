@@ -8,7 +8,7 @@
     </tr>
     <% @users.each do |user| %>
     <tr>
-        <td><%= user.account_name %></td>
+        <td><%= link_to user.account_name, user_path(user.id) %></td>
         <td><%= user.area_code %></td>
     </tr>
     <% end %>
