@@ -1,0 +1,17 @@
+<h1>users/index</h1>
+
+
+<table class="table">
+    <tr>
+        <th>アカウント</th>
+        <th>エリア</th>
+    </tr>
+    <% @users.each do |user| %>
+    <tr>
+        <td><%= user.account_name %></td>
+        <td><%= user.area_code %></td>
+    </tr>
+    <% end %>
+</table>
+
+
