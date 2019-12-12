@@ -5,9 +5,9 @@ class CommentsController < ApplicationController
         comment.user_id = current_user.id
         comment.post_id = params[:post_id]
         if comment.save
-            redirect_to post_path(params[:id])
+            redirect_to post_path(params[:post_id])
         else
-            lender_to post_path(params[:id])
+            lender_to post_path(params[:post_id])
         end
     end
 

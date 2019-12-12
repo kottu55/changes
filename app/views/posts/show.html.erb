@@ -11,12 +11,14 @@
     <%= @post.category_id %>
     <%= @post.owned_tag_id %>
     <p>コメント一覧</p>
-    <%= form_with(model: [@post,@comment]) do |f| %>
-        <%= f.text_field :comment %>
-        <%= f.submit %>
-    <% end%>
+    <% if @post.user_id != current_user.id %>
+        <%= form_with(model: [@post,@comment], local: true) do |f| %>
+            <%= f.text_field :comment %>
+            <%= f.submit %>
+        <% end %>
+    <% end %>
     <% @comments.each do |c| %>
-        <p><%= c.user_id %><%= c.comment %><%= link_to "削除", post_comment_path(c.id), method: :delete %></p>
+        <p><%= c.user_id %><%= c.comment %><% if c.user_id == current_user.id %><%= link_to "削除", post_comment_path(c.id), method: :delete %><% end %></p>
     <% end %>
 </p>
 <%= link_to "削除", post_path(params[:id]), method: :delete  %>
