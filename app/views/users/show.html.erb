@@ -8,6 +8,12 @@
 <% end %>
 <div>
     <p>投稿</p>
+    <% @posts.each do |post| %>
+        <%= link_to post_path(post.id) do %>
+        <%= attachment_image_tag post, :before_img, :fill, 100, 100, format: 'jpeg' %>
+        <% end %>
+        <%= post.caption %><br>
+    <% end %>
     <p>フォロー中</p>
     <p>フォロワー</p>
     <p>お気に入り</p>
