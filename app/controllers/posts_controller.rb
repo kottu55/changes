@@ -21,9 +21,15 @@ class PostsController < ApplicationController
     end
 
     def destroy
+        post = Post.find(params[:id])
+        if post.destroy
+            redirect_to posts_path
+        else
+            lender post_path(params[:id])
+        end
     end
 
     def post_params
-        params.require(:post).permit(:before_img, :after_img, :time_length, :caption, :category_id, :owned_tag_id, :page_views)
+        params.require(:post).permit(:before_img, :after_img, :time_length, :caption, :category_id, :owned_tag_id, :page_views, :title)
     end
 end
