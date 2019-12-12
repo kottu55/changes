@@ -1,8 +1,10 @@
-<h1>posts/new</h1>
+<h1>posts/edit</h1>
 
 <%= form_with model: @post, local: true do |f| %>
     <p>ビフォー<%= f.attachment_field :before_img %></p>
+    <%= attachment_image_tag @post, :before_img, :fill, 100, 100, format: 'jpeg' %>
     <p>アフター<%= f.attachment_field :after_img %></p>
+    <%= attachment_image_tag @post, :after_img, :fill, 100, 100, format: 'jpeg' %>
     <p><%= f.datetime_select(:time_length, prompt:"--",use_month_numbers:true, start_year:1, end_year:20, date_separator:'/') %></p>
     <p>タイトル<%= f.text_field :title %></p>
     <p>説明文<%= f.text_field :caption %></p>

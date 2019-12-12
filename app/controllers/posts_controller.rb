@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
 
     def index
-        @posts = Post.all
+        @posts = Post.pablish
     end
 
     def new
@@ -17,9 +17,15 @@ class PostsController < ApplicationController
     def create
         post = Post.new(post_params)
         post.user_id = current_user.id
-        post.save
-        puts post.errors.full_messages
-        redirect_to posts_path
+        if params[:publish]
+            post.status = 1
+            post.save
+            redirect_to posts_path
+        else # 下書きの場合
+            post.status = 0
+            post.save
+            redirect_to user_path(current_user.id)
+        end
     end
 
     def destroy
@@ -29,6 +35,21 @@ class PostsController < ApplicationController
         else
             lender post_path(params[:id])
         end
+    end
+
+    def edit
+        @post = Post.find(params[:id])
+    end
+
+    def update
+        post = Post.find(params[:id])
+        post.update(post_params)
+        if params[:publish]
+            post.update(status: 1)
+        else
+            post.update(status: 0)
+        end
+        redirect_to user_path(current_user.id)
     end
 
     def post_params

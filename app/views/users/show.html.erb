@@ -8,11 +8,20 @@
 <% end %>
 <div>
     <p>投稿</p>
-    <% @posts.each do |post| %>
+    <% @posts.publish.each do |post| %>
         <%= link_to post_path(post.id) do %>
         <%= attachment_image_tag post, :before_img, :fill, 100, 100, format: 'jpeg' %>
         <% end %>
         <%= post.caption %><br>
+    <% end %>
+    <% if current_user == @user %>
+    <p>下書き</p>
+    <% @posts.draft.each do |post| %>
+        <%= link_to edit_post_path(post.id) do %>
+        <%= attachment_image_tag post, :before_img, :fill, 100, 100, format: 'jpeg' %>
+        <% end %>
+        <%= post.caption %><br>
+    <% end %>
     <% end %>
     <p>フォロー中</p>
     <p>フォロワー</p>
