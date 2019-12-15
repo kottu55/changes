@@ -9,7 +9,7 @@
     <%= post.title %>
     <%= post.caption %>
     <%= post.time_length %>
-    <%= post.category_id %>
+    <%= Category.find(post.category_id).name %>
     <%= post.owned_tag_id %>
 </p>
 <% end %>

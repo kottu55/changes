@@ -6,7 +6,7 @@
     <p><%= f.datetime_select(:time_length, prompt:"--",use_month_numbers:true, start_year:1, end_year:20, date_separator:'/') %></p>
     <p>タイトル<%= f.text_field :title %></p>
     <p>説明文<%= f.text_field :caption %></p>
-    category_id<br>
+    <p>カテゴリ<%= f.select :category_id, Category.all.map{ |category| [category.name, category.id] } %></p>
     owned_tag_id<br>
     page_views<br>
     <%= f.submit "投稿する", name: "publish" %>
