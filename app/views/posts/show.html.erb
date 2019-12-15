@@ -8,7 +8,7 @@
     <%= @post.title %>
     <%= @post.caption %>
     <%= @post.time_length %>
-    <%= @post.category_id %>
+    <%= link_to Category.find(@post.category_id).name, category_path(@post.category_id)  %>
     <%= @post.owned_tag_id %>
     <p>コメント一覧</p>
     <% if @post.user_id != current_user.id %>

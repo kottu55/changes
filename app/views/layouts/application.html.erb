@@ -12,11 +12,46 @@
   <body>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
-    <% if user_signed_in? %>
-      <p><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></p>
-    <% end %>
-    <%= link_to "全ユーザー", users_path %>
-    <%= link_to "全投稿", posts_path %>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">CHANGES!</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="ナビゲーションの切替">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbar">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <% if user_signed_in? %>
+              <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link"  %>
+            <% else %>
+              <%= link_to "ログイン", new_user_session_path, class: "nav-link" %>
+            <% end %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "全ユーザー", users_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item">
+             <%= link_to "全投稿", posts_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">カテゴリー</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown">
+              <a class="dropdown-item" href="#">リンク1</a>
+              <a class="dropdown-item" href="#">リンク2</a>
+              <%= link_to "カテゴリー", categories_path, class: "dropdown-item" %>
+            </div>
+          </li>
+          <li class="nav-item">
+             <%= link_to "投稿する", new_post_path, class: "nav-link" %>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-md-0">
+          <input class="form-control" type="search" placeholder="検索..." aria-label="検索...">
+        </form>
+      </div>
+    </nav>
+    <div class="container">
     <%= yield %>
+    </div>
   </body>
 </html>
