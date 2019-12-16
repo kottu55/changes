@@ -4,6 +4,12 @@
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="field">
+    <%= f.label :account_img %><br />
+    <%= image_tag resource.account_img.url, class: "icon200size", id: :account_img_prev if resource.account_img? %>
+    <%= f.file_field :account_img, id: :account_img %>
+  </div>
+
+  <div class="field">
     <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>
@@ -56,3 +62,22 @@ rails generate migration AddDetailsToTitles price:integer author:string
 <p>しますか？ <%= button_to "はい", registration_path(resource_name), data: { confirm: "この操作は取り消しできません。本当に退会しますか？" }, method: :delete %></p>
 
 <%= link_to "Back", :back %>
+
+
+
+<script type="text/javascript">
+$(function() {
+ function readURL(input) {
+   if (input.files && input.files[0]) {
+     var reader = new FileReader();
+     reader.onload = function (e) {
+       $('#account_img_prev').attr('src', e.target.result);
+     }
+     reader.readAsDataURL(input.files[0]);
+   }
+ }
+ $("#account_img").change(function(){
+   readURL(this);
+ });
+});
+</script>

@@ -1,4 +1,4 @@
-<h1>users/index</h1>
+<h1>すべてのユーザー</h1>
 
 
 <table class="table">
@@ -8,6 +8,7 @@
     </tr>
     <% @users.each do |user| %>
     <tr>
+        <td><%= image_tag user.account_img.url, class: "icon100size" if user.account_img.present? %></td>
         <td><%= link_to user.account_name, user_path(user.id) %></td>
         <td><%= user.area_code %></td>
     </tr>

@@ -1,9 +1,10 @@
-<h1>posts/index</h1>
+<h1>すべての投稿</h1>
 
 <% @posts.each do |post| %>
 <p>
     <%= link_to post_path(post.id) do %>
-    <%= attachment_image_tag post, :before_img, :fill, 100, 100, format: 'jpeg' %>
+        <%= image_tag post.before_img.url, class: "img200size over-img" if post.before_img.present? %>
+        <%= image_tag post.after_img.url, class: "img200size under-img" if post.after_img.present? %>
     <% end %>
     <%= post.user_id %>
     <%= post.title %>
@@ -14,5 +15,5 @@
 </p>
 <% end %>
 <br>
-<%= link_to "ユーザー一覧", users_path %>
-<%= link_to "投稿", new_post_path %>
+
+

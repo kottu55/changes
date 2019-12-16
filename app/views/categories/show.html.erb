@@ -1,18 +1,18 @@
-<h1>categries/show</h1>
-
-<p><%= @category.name %></p>
+<h3>カテゴリー：<%= @category.name %></h3>
 
 <% @posts.each do |post| %>
-
+<p>
     <%= link_to post_path(post.id) do %>
-    <%= attachment_image_tag post, :before_img, :fill, 100, 100, format: 'jpeg' %>
-    <%= attachment_image_tag post, :after_img, :fill, 100, 100, format: 'jpeg' %>
+        <%= image_tag post.before_img.url, class: "img200size" if post.before_img.present? %>
+        <%= image_tag post.after_img.url, class: "img200size" if post.after_img.present? %>
     <% end %>
     <%= post.user_id %>
     <%= post.title %>
     <%= post.caption %>
     <%= post.time_length %>
-    <%= post.category_id %>
     <%= post.owned_tag_id %>
+</p>
+<% end %>
+<br>
 
- <% end %>
+

@@ -1,57 +1,57 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Changes</title>
+    <title>チェンジズ！</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
   <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">CHANGES!</a>
+      <a class="navbar-brand" href="/">CHANGES!</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="ナビゲーションの切替">
         <span class="navbar-toggler-icon"></span>
       </button>
-
       <div class="collapse navbar-collapse" id="navbar">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
             <% if user_signed_in? %>
-              <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link"  %>
+              <%= link_to "@#{current_user.account_name}", user_path(current_user.id), class: "nav-link" %>
             <% else %>
               <%= link_to "ログイン", new_user_session_path, class: "nav-link" %>
             <% end %>
           </li>
           <li class="nav-item">
-            <%= link_to "全ユーザー", users_path, class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-             <%= link_to "全投稿", posts_path, class: "nav-link" %>
+            <%= link_to (icon 'fas', 'user-friends'), users_path, class: "nav-link" %>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">カテゴリー</a>
             <div class="dropdown-menu" aria-labelledby="dropdown">
-              <a class="dropdown-item" href="#">リンク1</a>
-              <a class="dropdown-item" href="#">リンク2</a>
-              <%= link_to "カテゴリー", categories_path, class: "dropdown-item" %>
+              <%= link_to "すべて", categories_path, class: "dropdown-item" %>
+              <a class="dropdown-item" href="/categories/1">人</a>
+              <a class="dropdown-item" href="/categories/6">ファッション</a>
+              <a class="dropdown-item" href="/categories/11">建物</a>
+              <a class="dropdown-item" href="/categories/15">乗り物</a>
+              <a class="dropdown-item" href="/categories/19">その他</a>
             </div>
           </li>
-          <li class="nav-item">
-             <%= link_to "投稿する", new_post_path, class: "nav-link" %>
-          </li>
         </ul>
-        <form class="form-inline my-2 my-md-0">
-          <input class="form-control" type="search" placeholder="検索..." aria-label="検索...">
+        <form class="form-inline my-5 my-md-0">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <%= link_to "投稿する", new_post_path, class: "nav-link" %>
+            </li>
+          </ul>
         </form>
       </div>
     </nav>
+    <%= notice %>
+    <%= alert %>
     <div class="container">
     <%= yield %>
     </div>
+    <p class="text-center py-3">Copyright ©2019 Chenges! All Rights Reserved.</p>
   </body>
 </html>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_14_094611) do
+ActiveRecord::Schema.define(version: 2019_12_16_033435) do
 
   create_table "categories", force: :cascade do |t|
     t.string "ancestry"
@@ -29,8 +29,8 @@ ActiveRecord::Schema.define(version: 2019_12_14_094611) do
   end
 
   create_table "posts", force: :cascade do |t|
-    t.text "before_img_id"
-    t.text "after_img_id"
+    t.string "before_img"
+    t.string "after_img"
     t.datetime "time_length"
     t.string "caption"
     t.integer "category_id"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 2019_12_14_094611) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "introduction"
+    t.string "account_img"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
