@@ -1,49 +1,88 @@
-<h1>@<%= @user.account_name %><%= link_to "編集", edit_user_registration_path, class: "ml-5 btn btn-primary" %></h1>
-<p><%= image_tag @user.account_img.url, class: "icon200size" if @user.account_img.present?  %></p>
-<p><%= @user.area_code %></p>
-<p><%= @user.introduction %></p>
-<% if current_user == @user %>
-<% end %>
-<div>
-    <p>投稿</p>
-    <% @posts.publish.each do |post| %>
+<div class="row">
+  <div class="col-6 text-right p-4">
+    <%= image_tag @user.account_img.url, class: "icon200size border" if @user.account_img.present?  %>
+  </div>
+  <div class="col-6 pt-5">
+    <h1>@<%= @user.account_name %></h1>
+    <p><%= @user.area_code %></p>
+    <p><%= @user.introduction %></p>
+    <%= link_to "編集", edit_user_registration_path, class: " btn-sm btn-primary" if @user == current_user %>
+    <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn-sm btn-secondary ml-2" if @user == current_user %>
+    <% unless current_user == nil %>
+      <% unless current_user == @user %>
+        <% if current_user&.following?(@user) %>
+          <%= form_for(current_user&.relationships.find_by(follow_id: @user.id), html: { method: :delete }) do |f| %>
+            <%= hidden_field_tag :follow_id, @user.id %>
+            <%= f.submit 'Unfollow', class: 'btn btn-danger' %>
+          <% end %>
+        <% else %>
+          <%= form_for(current_user&.relationships&.build) do |f| %>
+            <%= hidden_field_tag :follow_id, @user.id %>
+            <%= f.submit 'Follow', class: 'btn btn-primary' %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+<p>投稿</p>
+<div class="row">
+  <% @posts.pablish.each do |post| %>
+    <div class="text-center col-4 p-3 border">
         <%= link_to post_path(post.id) do %>
-        <%= image_tag post.before_img.url, class: "img200size" if post.before_img.present? %>
-        <%= image_tag post.after_img.url, class: "img200size" if post.after_img.present?  %>
+          <%= image_tag post.before_img.url, class: "img200size over-img" if post.before_img.present? %>
+          <%= image_tag post.after_img.url, class: "img200size under-img" if post.after_img.present? %>
         <% end %>
-        <%= post.caption %><br>
-    <% end %>
-    <% if current_user == @user %>
-    <p>下書き</p>
+        <p>
+          <%= link_to user_path(post.user_id) do %>
+              <% if User.find(post.user_id).account_img.present? %>
+                  <p><%= image_tag(User.find(post.user_id).account_img.url, class: "icon50size") %>@<%= User.find(post.user_id).account_name %></p>
+              <% else %>
+                  <p><%= image_tag "no-img.jpg", class: "icon50size" %>@<%= User.find(post.user_id).account_name %></p>
+              <% end %>
+          <% end %>
+        </p>
+        <p><%= post.title %></p>
+        <p><%= post.time_quantity %><%= post.time_unit %></p>
+        <p><%= link_to Category.find(post.category_id).name, category_path(post.category_id), class: "btn btn-sm btn-outline-primary" %></p>
+        <p><%= post.owned_tag_id %></p>
+    </div>
+  <% end %>
+</div>
+<% if current_user == @user %>
+  <p>下書き</p>
+  <div class="row">
     <% @posts.draft.each do |post| %>
-        <%= link_to edit_post_path(post.id) do %>
-        <%= image_tag post.before_img.url, class: "img200size" if post.before_img.present?  %>
-        <%= image_tag post.after_img.url, class: "img200size" if post.after_img.present?  %>
-        <% end %>
-        <%= post.caption %><br>
+      <div class="text-center col-4 p-3 border">
+          <%= link_to post_path(post.id) do %>
+              <%= image_tag post.before_img.url, class: "img200size over-img" if post.before_img.present? %>
+              <%= image_tag post.after_img.url, class: "img200size under-img" if post.after_img.present? %>
+          <% end %>
+          <p>
+              <%= link_to user_path(post.user_id) do %>
+                  <% if User.find(post.user_id).account_img.present? %>
+                      <p><%= image_tag(User.find(post.user_id).account_img.url, class: "icon50size") %>@<%= User.find(post.user_id).account_name %></p>
+                  <% else %>
+                      <p><%= image_tag "no-img.jpg", class: "icon50size" %>@<%= User.find(post.user_id).account_name %></p>
+                  <% end %>
+              <% end %>
+          </p>
+          <p><%= post.title %></p>
+          <p><%= post.time_quantity %><%= post.time_unit %></p>
+          <p><%= link_to Category.find(post.category_id).name, category_path(post.category_id), class: "btn btn-sm btn-outline-primary" %></p>
+          <p><%= post.owned_tag_id %></p>
+      </div>
     <% end %>
-    <% end %>
+  </div>
+<% end %>
     <p>フォロー中</p>
+    @user.following.each do |user|
+    user.name
     <p>フォロワー</p>
     <p>お気に入り</p>
-</div>
 <p><%= link_to "戻る", users_path %></p>
 
-<br>
 
-<% unless current_user == nil %>
-  <% unless current_user == @user %>
-    <% if current_user&.following?(@user) %>
-      <%= form_for(current_user&.relationships.find_by(follow_id: @user.id), html: { method: :delete }) do |f| %>
-        <%= hidden_field_tag :follow_id, @user.id %>
-        <%= f.submit 'Unfollow', class: 'btn btn-danger' %>
-      <% end %>
-    <% else %>
-      <%= form_for(current_user&.relationships&.build) do |f| %>
-        <%= hidden_field_tag :follow_id, @user.id %>
-        <%= f.submit 'Follow', class: 'btn btn-primary' %>
-      <% end %>
-    <% end %>
-  <% end %>
-<% end %>
-<%= link_to "ログアウト", destroy_user_session_path, method: :delete  %>
+
+
+

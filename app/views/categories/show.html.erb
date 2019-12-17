@@ -1,18 +1,14 @@
-<h3>カテゴリー：<%= @category.name %></h3>
-
-<% @posts.each do |post| %>
-<p>
-    <%= link_to post_path(post.id) do %>
-        <%= image_tag post.before_img.url, class: "img200size" if post.before_img.present? %>
-        <%= image_tag post.after_img.url, class: "img200size" if post.after_img.present? %>
-    <% end %>
-    <%= post.user_id %>
-    <%= post.title %>
-    <%= post.caption %>
-    <%= post.time_length %>
-    <%= post.owned_tag_id %>
-</p>
+rootと同じ表示
+<% if @category.ancestry.nil? %>
+<p class="text-center my-3"><b>カテゴリー：<%= @category.name %></b></p>
+<div class="text-center mb-3">
+    <span>
+        <% @category.children.each do |child| %>
+        <%= link_to child.name, category_path(child.id), class: "btn btn-sm btn-outline-primary mx-1" %>
+        <% end %>
+    </span>
+</div>
+<% else %>
+<p class="text-center my-3"><b>カテゴリー：　<%= link_to @category.parent.name, category_path(@category.parent.id) %>　＞　<%= @category.name %></b></p>
 <% end %>
-<br>
-
-
+<%= render 'posts/posts_index', posts: @posts %>

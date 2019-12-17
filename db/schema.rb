@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_16_033435) do
+ActiveRecord::Schema.define(version: 2019_12_16_162224) do
 
   create_table "categories", force: :cascade do |t|
     t.string "ancestry"
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 2019_12_16_033435) do
   create_table "posts", force: :cascade do |t|
     t.string "before_img"
     t.string "after_img"
-    t.datetime "time_length"
+    t.string "time_unit"
     t.string "caption"
     t.integer "category_id"
     t.integer "owned_tag_id"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 2019_12_16_033435) do
     t.integer "user_id"
     t.string "title"
     t.integer "status"
+    t.integer "time_quantity"
   end
 
   create_table "relationships", force: :cascade do |t|

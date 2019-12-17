@@ -1,26 +1,27 @@
 <h1>投稿詳細</h1>
 <%= image_tag @post.before_img.url, class: "img200size" %>
+<%= @post.time_quantity %><%= @post.time_unit %>で、、、
 <%= image_tag @post.after_img.url, class: "img200size" %>
-<%= @post.user_id %>
-<%= @post.title %>
-<%= @post.caption %>
-<%= @post.time_length %>
-<%= link_to Category.find(@post.category_id).name, category_path(@post.category_id)  %>
-<%= @post.owned_tag_id %>
-<p>コメント一覧</p>
-<% if @post.user_id != current_user.id %>
-    <%= form_with(model: [@post,@comment], local: true) do |f| %>
-        <%= f.text_field :comment, class: "form-control" %>
-        <%= f.submit "送信", class: "btn btn-primary m-3" %>
-    <% end %>
+<%= link_to "削除", post_path(params[:id]), method: :delete if current_user.id == @post.user_id %>
+<div>
+    <%= @post.user_id %>
+    <%= @post.title %>
+    <%= @post.caption %>
+    <%= link_to Category.find(@post.category_id).name, category_path(@post.category_id)  %>
+    <%= @post.owned_tag_id %>
+</div>
+
+
+<%= form_with(model: [@post,@comment], local: true) do |f| %>
+    <%= f.text_field :comment, class: "form-control", placeholder: "コメント..." %>
+    <%= f.submit "送信", class: "btn btn-primary m-3" %>
 <% end %>
 <% @comments.reverse_order.each do |c| %>
-<% if User.find(c.user_id).account_img.present? %>
-    <p><%= image_tag(User.find(c.user_id).account_img.url, class: "icon50size") %>
+    <% if User.find(c.user_id).account_img.present? %>
+        <p><%= image_tag(User.find(c.user_id).account_img.url, class: "icon50size") %>
     <% else %>
-    <%= image_tag "no-img.jpg", class: "icon50size" %>
+        <%= image_tag "no-img.jpg", class: "icon50size" %>
     <% end %>
     <%= c.comment %><% if c.user_id == current_user.id %><%= link_to "削除", post_comment_path(c.id), method: :delete, class: "ml-4 btn-sm btn-secondary" %><% end %></p>
 <% end %>
-<%= link_to "投稿を削除", post_path(params[:id]), method: :delete if current_user.id == @post.user_id %>
 <%= link_to "戻る", posts_path %>
