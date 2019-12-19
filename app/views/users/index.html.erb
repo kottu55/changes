@@ -1,27 +1,2 @@
  <p class="text-center pt-3"><b>すべてのユーザー</b></p>
-<table class="table">
-    <tr>
-        <th>アイコン</th>
-        <th>アカウント</th>
-        <th>投稿数</th>
-        <th>エリア</th>
-        <th>一言</th>
-    </tr>
-    <% @users.each do |user| %>
-    <tr>
-        <td>
-            <% if user.account_img.present? %>
-            <%= image_tag user.account_img.url, class: "icon100size border" %>
-            <% else %>
-            <%= image_tag "anonymous.jpg", class: "icon100size border" %>
-            <% end %>
-        </td>
-        <td><%= link_to user.account_name, user_path(user.id) %></td>
-        <td><%= Post.where(user_id: user.id).pablish.count %></td>
-        <td><%= user.area_code %></td>
-        <td><%= user.introduction %></td>
-    </tr>
-    <% end %>
-</table>
-
-
+<%= render 'users/users_index', users: @users %>

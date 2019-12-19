@@ -29,24 +29,46 @@
     <% end %>
   </div>
 </div>
-<p>投稿</p>
-<%= render 'posts/posts_index', posts: @posts.pablish %>
-<% if current_user == @user %>
-  <p>下書き</p>
-  <%= render 'posts/posts_index', posts: @posts.draft %>
-<% end %>
-    <p>フォロー中</p>
-    <% @following_user&.each do |user| %>
-    <p><%= user.account_name %></p>
+
+<p class="text-right pr-5"><%= link_to "戻る", users_path %></p>
+
+
+
+
+
+<div class="card-body">
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link mb-0 active show" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">投稿</a>
+    </li>
+    <% if current_user == @user %>
+    <li class="nav-item">
+      <a class="nav-link mb-0" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">下書き</a>
+    </li>
     <% end %>
-    <p>フォロワー</p>
-    <% @follower_user&.each do |user| %>
-    <p><%= user.account_name %></p>
+    <li class="nav-item">
+      <a class="nav-link mb-0" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="true">フォロー中</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link mb-0" id="likes-tab" data-toggle="tab" href="#likes" role="tab" aria-controls="likes" aria-selected="false">お気に入り</a>
+    </li>
+  </ul>
+  <div class="tab-content pl-3 p-1" id="myTabContent">
+    <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <%= render 'posts/posts_index', posts: @posts.pablish %>
+    </div>
+    <% if current_user == @user %>
+      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <%= render 'posts/posts_index', posts: @posts.draft %>
+      </div>
     <% end %>
-    <p>お気に入り</p>
-<p><%= link_to "戻る", users_path %></p>
-
-
-
-
-
+    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+      <%= render 'users/users_index', users: @following_user %>
+      <%= link_to "誰もフォローしていません。友達を見つけよう！", users_path if @following_user.blank? %>
+    </div>
+    <div class="tab-pane fade" id="likes" role="tabpanel" aria-labelledby="contact-tab">
+      <%= render 'users/users_index', users: @follower_user %>
+      <%= link_to "フォロワーがいません。変化を投稿してフォローしてもらおう！", new_post_path if @follower_user.blank? %>
+    </div>
+  </div>
+</div>
