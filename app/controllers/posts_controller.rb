@@ -1,5 +1,10 @@
 class PostsController < ApplicationController
 
+    def lp
+        @posts = Post.pablish
+        render layout: false
+    end
+
     def index
         @posts = Post.pablish
     end
@@ -20,10 +25,10 @@ class PostsController < ApplicationController
         if params[:publish]
             post.status = 1
             if post.save
-                flash[:success] = "投稿しました！"
-                redirect_to posts_path
+                redirect_to posts_path, success: '登録ができました'
             else
-                render 'posts/new'
+                flash.now[:danger] = '入力項目に誤りがあります。'
+                render :new
             end
         else # 下書きの場合
             post.status = 0

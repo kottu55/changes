@@ -6,6 +6,10 @@ class Post < ApplicationRecord
     has_many :commnets
     # validates :before, presence: true
     # validates :before, presence: true
+    validates :title,           length: { in: 1..30 }
+    validates :caption,           length: { in: 1..140 }
+
+
 
     enum status: {draft:0, pablish:1}
     scope :by_user, -> (user_id) { where(user_id: (user_id)) }

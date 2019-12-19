@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
     protected
     def configure_permitted_parameters
         devise_parameter_sanitizer.permit(:sign_up, keys: [:account_name, :area_code, :birth_date, :account_img])
-        devise_parameter_sanitizer.permit(:account_update, keys: [:account_name, :area_code, :birth_date, :account_img])
+        devise_parameter_sanitizer.permit(:account_update, keys: [:account_name, :area_code, :birth_date, :account_img, :introduction])
     end
 
     def after_sign_out_path_for(resource)
@@ -13,6 +13,6 @@ class ApplicationController < ActionController::Base
     end
 
     def after_update_path_for(resource)
-         user_path(params[:id])
+         my_page_path
     end
 end

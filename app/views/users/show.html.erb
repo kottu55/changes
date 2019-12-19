@@ -1,6 +1,10 @@
 <div class="row">
   <div class="col-6 text-right p-4">
-    <%= image_tag @user.account_img.url, class: "icon200size border" if @user.account_img.present?  %>
+    <% if @user.account_img.present? %>
+    <%= image_tag @user.account_img.url, class: "icon200size border" %>
+    <% else%>
+    <%= image_tag "anonymous.jpg", class: "icon200size border" %>
+    <% end %>
   </div>
   <div class="col-6 pt-5">
     <h1>@<%= @user.account_name %></h1>
@@ -26,59 +30,19 @@
   </div>
 </div>
 <p>投稿</p>
-<div class="row">
-  <% @posts.pablish.each do |post| %>
-    <div class="text-center col-4 p-3 border">
-        <%= link_to post_path(post.id) do %>
-          <%= image_tag post.before_img.url, class: "img200size over-img" if post.before_img.present? %>
-          <%= image_tag post.after_img.url, class: "img200size under-img" if post.after_img.present? %>
-        <% end %>
-        <p>
-          <%= link_to user_path(post.user_id) do %>
-              <% if User.find(post.user_id).account_img.present? %>
-                  <p><%= image_tag(User.find(post.user_id).account_img.url, class: "icon50size") %>@<%= User.find(post.user_id).account_name %></p>
-              <% else %>
-                  <p><%= image_tag "no-img.jpg", class: "icon50size" %>@<%= User.find(post.user_id).account_name %></p>
-              <% end %>
-          <% end %>
-        </p>
-        <p><%= post.title %></p>
-        <p><%= post.time_quantity %><%= post.time_unit %></p>
-        <p><%= link_to Category.find(post.category_id).name, category_path(post.category_id), class: "btn btn-sm btn-outline-primary" %></p>
-        <p><%= post.owned_tag_id %></p>
-    </div>
-  <% end %>
-</div>
+<%= render 'posts/posts_index', posts: @posts.pablish %>
 <% if current_user == @user %>
   <p>下書き</p>
-  <div class="row">
-    <% @posts.draft.each do |post| %>
-      <div class="text-center col-4 p-3 border">
-          <%= link_to post_path(post.id) do %>
-              <%= image_tag post.before_img.url, class: "img200size over-img" if post.before_img.present? %>
-              <%= image_tag post.after_img.url, class: "img200size under-img" if post.after_img.present? %>
-          <% end %>
-          <p>
-              <%= link_to user_path(post.user_id) do %>
-                  <% if User.find(post.user_id).account_img.present? %>
-                      <p><%= image_tag(User.find(post.user_id).account_img.url, class: "icon50size") %>@<%= User.find(post.user_id).account_name %></p>
-                  <% else %>
-                      <p><%= image_tag "no-img.jpg", class: "icon50size" %>@<%= User.find(post.user_id).account_name %></p>
-                  <% end %>
-              <% end %>
-          </p>
-          <p><%= post.title %></p>
-          <p><%= post.time_quantity %><%= post.time_unit %></p>
-          <p><%= link_to Category.find(post.category_id).name, category_path(post.category_id), class: "btn btn-sm btn-outline-primary" %></p>
-          <p><%= post.owned_tag_id %></p>
-      </div>
-    <% end %>
-  </div>
+  <%= render 'posts/posts_index', posts: @posts.draft %>
 <% end %>
     <p>フォロー中</p>
-    @user.following.each do |user|
-    user.name
+    <% @following_user&.each do |user| %>
+    <p><%= user.account_name %></p>
+    <% end %>
     <p>フォロワー</p>
+    <% @follower_user&.each do |user| %>
+    <p><%= user.account_name %></p>
+    <% end %>
     <p>お気に入り</p>
 <p><%= link_to "戻る", users_path %></p>
 

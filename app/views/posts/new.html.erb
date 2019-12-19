@@ -1,5 +1,6 @@
 <div class="width80">
-  <h1 class="text-center">新しい投稿</h1>
+<div class="alert alert-danger" role="alert"><%= flash[:danger] %></div>
+<p class="text-center mt-3"><b>新しい投稿</b></p>
 
   <%= form_with model: @post, local: true do |f| %>
     <div class="row p-5">
@@ -12,14 +13,16 @@
         <p>アフター</p><%= f.file_field :after_img, id: :after_img %>
       </div>
     </div>
-    <p>どれくらいかかった？→
-    <%= f.select(:time_quantity, [*1..59]) %><%= f.select(:time_unit, ["年","ヵ月","日","時間","分","秒"]) %></p>
-    <p>タイトル<%= f.text_field :title %></p>
-    <p>説明文<%= f.text_field :caption %></p>
-    <p>カテゴリ<%= f.select :category_id, Category.all.map{ |category| [category.name, category.id] } %></p>
-    owned_tag_id<br>
-    <%= f.submit "投稿する", name: "publish" %>
-    <%= f.submit "下書きへ保存", name: "draft" %>
+    <div class="text-center">
+      <p class="mb-3">どれくらいかかった？
+      <%= f.select(:time_quantity, [*1..59], {}, class: "form form-control-sm mr-2") %><%= f.select(:time_unit, ["年","ヵ月","日","時間","分","秒"], {}, class: "form form-control-sm") %></p>
+      <p class="mb-3"><%= f.text_field :title, class: "form form-control", placeholder: "タイトル..." %></p>
+      <p class="mb-3"><%= f.text_area :caption, class: "form form-control", placeholder: "変化の説明..." %></p>
+      <p class="mb-5">カテゴリ<%= f.select(:category_id, Category.all.map{ |category| [category.name, category.id] }, {}, class: "form form-control-sm") %></p>
+      <%= f.submit "投稿する", name: "publish", class: "btn btn-success radius-btn" %>
+      <%= f.submit "下書きへ保存", name: "draft", class: "btn radius-btn btn-secondary border ml-3" %>
+    </div>
+    <div class="height100"></div>
   <% end %>
 </div>
 
@@ -56,4 +59,11 @@ $(function() {
    readURL(this);
  });
 });
+</script>
+
+
+<script>
+  $(function(){
+    $(".alert").fadeOut(5000);
+  });
 </script>
