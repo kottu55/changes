@@ -1,5 +1,10 @@
 class PostsController < ApplicationController
 
+    def lp
+        @posts = Post.pablish
+        render layout: false
+    end
+
     def index
         @posts = Post.pablish
     end
@@ -19,8 +24,12 @@ class PostsController < ApplicationController
         post.user_id = current_user.id
         if params[:publish]
             post.status = 1
-            post.save
-            redirect_to posts_path
+            if post.save
+                redirect_to posts_path, success: '登録ができました'
+            else
+                flash.now[:danger] = '入力項目に誤りがあります。'
+                render :new
+            end
         else # 下書きの場合
             post.status = 0
             post.save
@@ -52,7 +61,10 @@ class PostsController < ApplicationController
         redirect_to user_path(current_user.id)
     end
 
+    private
+
     def post_params
-        params.require(:post).permit(:before_img, :after_img, :time_length, :caption, :category_id, :owned_tag_id, :page_views, :title)
+        params.require(:post).permit(:before_img, :after_img, :caption, :category_id, :owned_tag_id, :page_views, :title, :time_quantity, :time_unit)
     end
+
 end

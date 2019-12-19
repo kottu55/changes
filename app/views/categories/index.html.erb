@@ -1,11 +1,11 @@
-<h1>Categories/index</h1>
-
-
-<h2>親カテゴリ</h2>
+<h1>すべてのカテゴリー</h1>
 <% @parent_categories.each do |parent| %>
-<p><%= link_to parent.name, category_path(parent.id)  %></p>
+<p><%= link_to parent.name, category_path(parent.id), class: "btn btn-primary" %></p>
     <% parent.children.each do |child| %>
-    <p>　　　<%= link_to child.name, category_path(child.id) %></p>
+    <%= link_to child.name, category_path(child.id), class: "btn btn-primary" %>
     <% end %>
+    <br>
+    <br>
+    <br>
 <% end %>
 

@@ -1,51 +1,74 @@
-<h1>users/show</h1>
-<%= @user.account_name %>
-<p><%= @user.area_code %></p>
-<p><%= @user.introduction %></p>
-<% if current_user == @user %>
-<p><%= link_to "編集", edit_user_registration_path %></p>
-<p><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></p>
-<% end %>
-<div>
-    <p>投稿</p>
-    <% @posts.publish.each do |post| %>
-        <%= link_to post_path(post.id) do %>
-        <%= attachment_image_tag post, :before_img, :fill, 100, 100, format: 'jpeg' %>
+<div class="row">
+  <div class="col-6 text-right p-4">
+    <% if @user.account_img.present? %>
+    <%= image_tag @user.account_img.url, class: "icon200size border" %>
+    <% else%>
+    <%= image_tag "anonymous.jpg", class: "icon200size border" %>
+    <% end %>
+  </div>
+  <div class="col-6 pt-5">
+    <h1>@<%= @user.account_name %></h1>
+    <p><%= @user.area_code %></p>
+    <p><%= @user.introduction %></p>
+    <%= link_to "編集", edit_user_registration_path, class: " btn-sm btn-primary" if @user == current_user %>
+    <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn-sm btn-secondary ml-2" if @user == current_user %>
+    <% unless current_user == nil %>
+      <% unless current_user == @user %>
+        <% if current_user&.following?(@user) %>
+          <%= form_for(current_user&.relationships.find_by(follow_id: @user.id), html: { method: :delete }) do |f| %>
+            <%= hidden_field_tag :follow_id, @user.id %>
+            <%= f.submit 'Unfollow', class: 'btn btn-danger' %>
+          <% end %>
+        <% else %>
+          <%= form_for(current_user&.relationships&.build) do |f| %>
+            <%= hidden_field_tag :follow_id, @user.id %>
+            <%= f.submit 'Follow', class: 'btn btn-primary' %>
+          <% end %>
         <% end %>
-        <%= post.caption %><br>
+      <% end %>
     <% end %>
-    <% if current_user == @user %>
-    <p>下書き</p>
-    <% @posts.draft.each do |post| %>
-        <%= link_to edit_post_path(post.id) do %>
-        <%= attachment_image_tag post, :before_img, :fill, 100, 100, format: 'jpeg' %>
-        <% end %>
-        <%= post.caption %><br>
-    <% end %>
-    <% end %>
-    <p>フォロー中</p>
-    <p>フォロワー</p>
-    <p>お気に入り</p>
+  </div>
 </div>
-<p><%= link_to "戻る", users_path %></p>
 
-<br>
+<p class="text-right pr-5"><%= link_to "戻る", users_path %></p>
 
-<% unless current_user == nil %>
-  <% unless current_user == @user %>
-    <% if current_user&.following?(@user) %>
-      <%= form_for(current_user&.relationships.find_by(follow_id: @user.id), html: { method: :delete }) do |f| %>
-        <%= hidden_field_tag :follow_id, @user.id %>
-        <%= f.submit 'Unfollow', class: 'btn btn-danger' %>
-      <% end %>
-    <% else %>
-      <%= form_for(current_user&.relationships&.build) do |f| %>
-        <%= hidden_field_tag :follow_id, @user.id %>
-        <%= f.submit 'Follow', class: 'btn btn-primary' %>
-      <% end %>
+
+
+
+
+<div class="card-body">
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link mb-0 active show" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">投稿</a>
+    </li>
+    <% if current_user == @user %>
+    <li class="nav-item">
+      <a class="nav-link mb-0" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">下書き</a>
+    </li>
     <% end %>
-  <% end %>
-<% end %>
-
-<br>
-<br>
+    <li class="nav-item">
+      <a class="nav-link mb-0" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="true">フォロー中</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link mb-0" id="likes-tab" data-toggle="tab" href="#likes" role="tab" aria-controls="likes" aria-selected="false">お気に入り</a>
+    </li>
+  </ul>
+  <div class="tab-content pl-3 p-1" id="myTabContent">
+    <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <%= render 'posts/posts_index', posts: @posts.pablish %>
+    </div>
+    <% if current_user == @user %>
+      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <%= render 'posts/posts_index', posts: @posts.draft %>
+      </div>
+    <% end %>
+    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+      <%= render 'users/users_index', users: @following_user %>
+      <%= link_to "誰もフォローしていません。友達を見つけよう！", users_path if @following_user.blank? %>
+    </div>
+    <div class="tab-pane fade" id="likes" role="tabpanel" aria-labelledby="contact-tab">
+      <%= render 'users/users_index', users: @follower_user %>
+      <%= link_to "フォロワーがいません。変化を投稿してフォローしてもらおう！", new_post_path if @follower_user.blank? %>
+    </div>
+  </div>
+</div>

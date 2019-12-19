@@ -1,14 +1,69 @@
-<h1>posts/new</h1>
+<div class="width80">
+<div class="alert alert-danger" role="alert"><%= flash[:danger] %></div>
+<p class="text-center mt-3"><b>新しい投稿</b></p>
 
-<%= form_with model: @post, local: true do |f| %>
-    <p>ビフォー<%= f.attachment_field :before_img %></p>
-    <p>アフター<%= f.attachment_field :after_img %></p>
-    <p><%= f.datetime_select(:time_length, prompt:"--",use_month_numbers:true, start_year:1, end_year:20, date_separator:'/') %></p>
-    <p>タイトル<%= f.text_field :title %></p>
-    <p>説明文<%= f.text_field :caption %></p>
-    <p>カテゴリ<%= f.select :category_id, Category.all.map{ |category| [category.name, category.id] } %></p>
-    owned_tag_id<br>
-    page_views<br>
-    <%= f.submit "投稿する", name: "publish" %>
-    <%= f.submit "下書きへ保存", name: "draft" %>
-<% end %>
+  <%= form_with model: @post, local: true do |f| %>
+    <div class="row p-5">
+      <div class="col-6 text-center">
+        <p><%= image_tag "no-img.jpg", id: :before_img_prev, class: "img200size" %></p>
+        <p>ビフォー</p><%= f.file_field :before_img, id: :before_img %>
+      </div>
+      <div class="col-6 text-center">
+        <p><%= image_tag "no-img.jpg", id: :after_img_prev, class: "img200size" %></p>
+        <p>アフター</p><%= f.file_field :after_img, id: :after_img %>
+      </div>
+    </div>
+    <div class="text-center">
+      <p class="mb-3">どれくらいかかった？
+      <%= f.select(:time_quantity, [*1..59], {}, class: "form form-control-sm mr-2") %><%= f.select(:time_unit, ["年","ヵ月","日","時間","分","秒"], {}, class: "form form-control-sm") %></p>
+      <p class="mb-3"><%= f.text_field :title, class: "form form-control", placeholder: "タイトル..." %></p>
+      <p class="mb-3"><%= f.text_area :caption, class: "form form-control", placeholder: "変化の説明..." %></p>
+      <p class="mb-5">カテゴリ<%= f.select(:category_id, Category.all.map{ |category| [category.name, category.id] }, {}, class: "form form-control-sm") %></p>
+      <%= f.submit "投稿する", name: "publish", class: "btn btn-success radius-btn" %>
+      <%= f.submit "下書きへ保存", name: "draft", class: "btn radius-btn btn-secondary border ml-3" %>
+    </div>
+    <div class="height100"></div>
+  <% end %>
+</div>
+
+
+<script type="text/javascript">
+$(function() {
+ function readURL(input) {
+   if (input.files && input.files[0]) {
+     var reader = new FileReader();
+     reader.onload = function (e) {
+       $('#before_img_prev').attr('src', e.target.result);
+     }
+     reader.readAsDataURL(input.files[0]);
+   }
+ }
+ $("#before_img").change(function(){
+   readURL(this);
+ });
+});
+</script>
+
+<script type="text/javascript">
+$(function() {
+ function readURL(input) {
+   if (input.files && input.files[0]) {
+     var reader = new FileReader();
+     reader.onload = function (e) {
+       $('#after_img_prev').attr('src', e.target.result);
+     }
+     reader.readAsDataURL(input.files[0]);
+   }
+ }
+ $("#after_img").change(function(){
+   readURL(this);
+ });
+});
+</script>
+
+
+<script>
+  $(function(){
+    $(".alert").fadeOut(5000);
+  });
+</script>

@@ -1,0 +1,19 @@
+<div class="row">
+    <% users.each do |user| %>
+        <div class="text-center col-4 p-3">
+            <div class="border bdr-5 height100p p-3 raised-box-shadow">
+                <%= link_to user_path(user.id) do %>
+                    <% if user.account_img.present? %>
+                        <%= image_tag user.account_img.url, class: "icon100size border" %>
+                    <% else %>
+                        <%= image_tag "anonymous.jpg", class: "icon100size border" %>
+                    <% end %>
+                <% end %>
+                <p>@<%= link_to user.account_name, user_path(user.id) %></p>
+                <p><%= user.area_code %></p>
+                <p><%= user.introduction %></p>
+             </div>
+        </div>
+    <% end %>
+</div>
+
