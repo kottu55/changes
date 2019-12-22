@@ -29,10 +29,10 @@ end
 
 # Users
 n = 1
-10.times do
+30.times do
   gimei = Gimei.new
   User.create(
-    account_name: gimei.name.romaji,
+    account_name: Faker::Name.first_name,
     area_code: gimei.address.prefecture.kanji,
     email: "test#{n}@gmail.com",
     birth_date: "1990-01-01",

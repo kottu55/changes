@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 2019_12_21_094207) do
     t.datetime "updated_at", null: false
     t.string "title"
     t.integer "status"
+    t.integer "time_quantity"
     t.integer "user_id"
   end
 
