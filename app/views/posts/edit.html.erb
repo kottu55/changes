@@ -1,6 +1,6 @@
-
 <div class="width80">
-  <h1 class="text-center">下書き</h1>
+<div class="alert alert-danger" role="alert"><%= flash[:danger] %></div>
+<p class="text-center mt-3"><b>下書き</b></p>
 
   <%= form_with model: @post, local: true do |f| %>
     <div class="row p-5">
@@ -18,49 +18,21 @@
         <% else %>
           <p><%= image_tag "no-img.jpg", id: :after_img_prev, class: "img200size" %></p>
         <% end %>
-        <p>ビフォー</p><%= f.file_field :after_img, id: :after_img %>
+        <p>アフター</p><%= f.file_field :after_img, id: :after_img %>
       </div>
     </div>
-    <p>単位を決める→<%= f.select(:unit, ["年","月","日","時","分","秒"]) %></p>
-    <div style="height: 50px">
-      <section id="年" style="position: absolute;">
-        <p><%= f.date_select(:time_length, prompt:"--", :discard_month => true, :discard_day => true, start_year:1, end_year:50) %>年</p>
-      </section>
-      <section id="月" style="display: none; position: absolute;">
-        <p><%= f.date_select(:time_length, prompt:"--", use_month_numbers:true, :discard_year => true, :discard_day => true) %>月</p>
-      </section>
-      <section id="日" style="display: none; position: absolute;">
-        <p><%= f.select(:time_length, [*1..25], prompt:"--") %>日</p>
-      </section>
-      <section id="時" style="display: none; position: absolute;">
-        <p><%= f.time_select(:time_length, prompt:"--", :discard_minute => true) %>時間</p>
-      </section>
-      <section id="分" style="display: none; position: absolute;">
-        <p><%= f.time_select(:time_length, prompt:"--", :discard_hour => true) %>分</p>
-      </section>
-      <section id="秒" style="display: none; position: absolute;">
-        <p><%= f.select(:time_length, [*1..59], prompt:"--") %>分</p>
-      </section>
-  </div>
-    <p>タイトル<%= f.text_field :title %></p>
-    <p>説明文<%= f.text_field :caption %></p>
-    <p>カテゴリ<%= f.select :category_id, Category.all.map{ |category| [category.name, category.id] } %></p>
-    owned_tag_id<br>
-    <%= f.submit "投稿する", name: "publish" %>
-    <%= f.submit "下書きへ保存", name: "draft" %>
+    <div class="text-center">
+      <p class="mb-3">どれくらいかかった？
+      <%= f.select(:time_quantity, [*1..59], {}, class: "form form-control-sm mr-2") %><%= f.select(:time_unit, ["年","ヵ月","日","時間","分","秒"], {}, class: "form form-control-sm") %></p>
+      <p class="mb-3"><%= f.text_field :title, class: "form form-control", placeholder: "タイトル..." %></p>
+      <p class="mb-3"><%= f.text_area :caption, class: "form form-control", placeholder: "変化の説明..." %></p>
+      <p class="mb-5">カテゴリ<%= f.select(:category_id, Category.all.map{ |category| [category.name, category.id] }, {}, class: "form form-control-sm") %></p>
+      <%= f.submit "投稿する", name: "publish", class: "btn btn-success radius-btn" %>
+      <%= f.submit "下書きへ保存", name: "draft", class: "btn radius-btn btn-secondary border ml-3" %>
+    </div>
+    <div class="height100"></div>
   <% end %>
-
 </div>
-
-
-<script type="text/javascript">
-$('select').change(function () {
-  var val = $('select option:selected').val();
-  if (val == 'select') return;
-  $('section').fadeOut();
-  $('section#' + val ).fadeIn();
-});
-</script>
 
 
 <script type="text/javascript">
@@ -95,4 +67,11 @@ $(function() {
    readURL(this);
  });
 });
+</script>
+
+
+<script>
+  $(function(){
+    $(".alert").fadeOut(5000);
+  });
 </script>

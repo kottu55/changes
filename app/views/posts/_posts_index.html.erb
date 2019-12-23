@@ -1,23 +1,46 @@
 <div class="row">
-    <% @posts.each do |post| %>
+    <% posts.each do |post| %>
     <div class="text-center col-4 p-3">
         <div class="border bdr-5 height100p p-3 raised-box-shadow">
+            <% if post.status == "pablish" %>
                 <%= link_to post_path(post.id) do %>
-                    <%= image_tag post.before_img.url, class: "img200size over-img border" if post.before_img.present? %>
-                    <%= image_tag post.after_img.url, class: "img200size under-img border" if post.after_img.present? %>
-                <% end %>
-                <p>
-                    <%= link_to user_path(post.user_id) do %>
-                        <% if User.find(post.user_id).account_img.present? %>
-                            <p><%= image_tag(User.find(post.user_id).account_img.url, class: "icon50size") %>@<%= User.find(post.user_id).account_name %></p>
-                        <% else %>
-                            <p><%= image_tag "anonymous.jpg", class: "icon50size" %>@<%= User.find(post.user_id).account_name %></p>
-                        <% end %>
+                    <% if post.before_img.present? %>
+                        <%= image_tag post.before_img.url, class: "img200size over-img border" %>
+                    <% else %>
+                        <%= image_tag "no-img.jpg", class: "img200size over-img border" %>
                     <% end %>
-                </p>
-                <p><%= post.time_quantity %><%= post.time_unit %><%= link_to Category.find(post.category_id).name, category_path(post.category_id), class: "btn btn-sm ml-2 btn-outline-primary" %></p>
-                <p><%= post.title %></p>
-                <p><%= post.owned_tag_id %></p>
+                    <% if post.after_img.present? %>
+                        <%= image_tag post.after_img.url, class: "img200size under-img border" %>
+                    <% else %>
+                        <%= image_tag "no-img.jpg", class: "img200size under-img border" %>
+                    <% end %>
+                <% end %>
+            <% else %>
+                <%= link_to edit_post_path(post.id) do %>
+                    <% if post.before_img.present? %>
+                        <%= image_tag post.before_img.url, class: "img200size over-img border" %>
+                    <% else %>
+                        <%= image_tag "no-img.jpg", class: "img200size over-img border" %>
+                    <% end %>
+                    <% if post.after_img.present? %>
+                        <%= image_tag post.after_img.url, class: "img200size under-img border" %>
+                    <% else %>
+                        <%= image_tag "no-img.jpg", class: "img200size under-img border" %>
+                    <% end %>
+                <% end %>
+            <% end %>
+            <p>
+                <%= link_to user_path(post.user_id) do %>
+                    <% if User.find(post.user_id).account_img.present? %>
+                        <p><%= image_tag(User.find(post.user_id).account_img.url, class: "icon50size") %>@<%= User.find(post.user_id).account_name %></p>
+                    <% else %>
+                        <p><%= image_tag "anonymous.jpg", class: "icon50size" %>@<%= User.find(post.user_id).account_name %></p>
+                    <% end %>
+                <% end %>
+            </p>
+            <p><%= post.time_quantity %><%= post.time_unit %><%= link_to Category.find(post.category_id).name, category_path(post.category_id), class: "btn btn-sm ml-2 btn-outline-primary" %></p>
+            <p><%= post.title %></p>
+            <p><%= post.owned_tag_id %></p>
         </div>
     </div>
     <% end %>
