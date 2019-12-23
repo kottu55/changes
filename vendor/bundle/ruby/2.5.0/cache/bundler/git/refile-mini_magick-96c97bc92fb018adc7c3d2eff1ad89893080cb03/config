@@ -2,5 +2,6 @@
 	repositoryformatversion = 0
 	filemode = true
 	bare = true
+	ignorecase = true
 [remote "origin"]
 	url = https://github.com/refile/refile-mini_magick.git
