@@ -1,27 +1,54 @@
-<h1>投稿詳細</h1>
-<%= image_tag @post.before_img.url, class: "img200size" %>
-<%= @post.time_quantity %><%= @post.time_unit %>で、、、
-<%= image_tag @post.after_img.url, class: "img200size" %>
-<%= link_to "削除", post_path(params[:id]), method: :delete if current_user.id == @post.user_id %>
-<div>
-    <%= @post.user_id %>
-    <%= @post.title %>
-    <%= @post.caption %>
-    <%= link_to Category.find(@post.category_id).name, category_path(@post.category_id)  %>
-    <%= @post.owned_tag_id %>
+<div class="width80 text-center">
+<h3 class="text-center my-4"><b>投稿詳細</b></h3>
+<div class="">
+<% if @post.before_img? %>
+<%= image_tag @post.before_img.url, class: "img200size", id: :before_img_prev %>
+<% else %>
+<%= image_tag "no-img.jpg", id: :before_img_prev, class: "img200size" %>
+<% end %>
+
+<p class="d-inline"><%= @post.time_quantity %><%= @post.time_unit %>で...</p>
+<% if @post.after_img? %>
+<%= image_tag @post.after_img.url, class: "img200size", id: :after_img_prev %>
+<% else %>
+<%= image_tag "no-img.jpg", id: :after_img_prev, class: "img200size" %>
+<% end %>
+
+
+<p class="text-right"><%= link_to "投稿を削除", post_path(params[:id]), method: :delete, class: "btn btn-secondary btn-sm" if current_user.id == @post.user_id %></p>
+</div>
+<div class="text-left row">
+    <div class="col-4">
+        <%= link_to user_path(User.find(@post.user_id)), class: "ml-5" do %>
+            <% if User.find(@post.user_id).account_img.present? %>
+                <%= image_tag(User.find(@post.user_id).account_img.url, class: "icon100size") %>
+            <% else %>
+                <%= image_tag "no-img.jpg", class: "icon100size" %>
+            <% end %>
+            <%= User.find(@post.user_id).account_name %>
+        <% end %>
+    </div>
+    <div class="col-8">
+        <p><%= link_to Category.find(@post.category_id).name, category_path(@post.category_id), class: "btn btn-sm btn-outline-primary"  %></p>
+        <p><%= @post.title %></p>
+        <p><%= @post.caption %></p>
+    </div>
 </div>
 
-
+<div class="text-left">
 <%= form_with(model: [@post,@comment], local: true) do |f| %>
-    <%= f.text_field :comment, class: "form-control", placeholder: "コメント..." %>
-    <%= f.submit "送信", class: "btn btn-primary m-3" %>
+    <%= f.text_field :comment, class: "form-control mb-2", placeholder: "コメント..." %>
+    <%= f.submit "送信", class: "btn btn-primary float-right" %>
 <% end %>
 <% @comments.reverse_order.each do |c| %>
     <% if User.find(c.user_id).account_img.present? %>
-        <p><%= image_tag(User.find(c.user_id).account_img.url, class: "icon50size") %>
+        <%= image_tag(User.find(c.user_id).account_img.url, class: "icon50size") %>
     <% else %>
         <%= image_tag "no-img.jpg", class: "icon50size" %>
     <% end %>
-    <%= c.comment %><% if c.user_id == current_user.id %><%= link_to "削除", post_comment_path(c.id), method: :delete, class: "ml-4 btn-sm btn-secondary" %><% end %></p>
+    <%= c.comment %><% if c.user_id == current_user.id %><%= link_to "X", post_comment_path(c.id), method: :delete, class: "ml-4 btn-sm border btn-outline-secondary" %><% end %></p>
 <% end %>
-<%= link_to "戻る", posts_path %>
+<%= link_to "すべての投稿", posts_path, class: "btn btn-sm ml-2 btn-outline-secondary my-3" %>
+</div>
+
+</div>

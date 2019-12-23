@@ -1,4 +1,5 @@
-<h1>すべてのカテゴリー</h1>
+<div class="width50 raised-box-shadow p-5 m-5">
+<h3 class="mb-3 ml-3"><b>すべてのカテゴリー</b></h3>
 <% @parent_categories.each do |parent| %>
 <p><%= link_to parent.name, category_path(parent.id), class: "btn btn-primary" %></p>
     <% parent.children.each do |child| %>
@@ -9,3 +10,4 @@
     <br>
 <% end %>
 
+</div>

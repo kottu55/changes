@@ -1,25 +1,75 @@
-# README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# ポートフォリオURL
+<a href="http://changes.work/posts/lp" target="_blank">CHANGES!</a>
 
-Things you may want to cover:
+# 概要
+changes(チェンジーズ)は、身の回りの「変化」をシェアするサービスです。
+筋トレやイメチェン、メイクなど、変化したことを集めたら面白いと思って作りました。
 
-* Ruby version
+# 使用方法
+リンクをクリック
+右上のログインボタンをクリック
+ログインカードの一番下、かんたんログインをクリック
+すべての投稿が表示
+右上の投稿ボタンをクリック
+画像を選択、内容を記入して投稿ボタンをクリック
 
-* System dependencies
+# 機能・使用技術一覧
+- 技術一覧
+  - 言語/フレームワーク
+    - ruby
+    - ruby on rails
+  - インフラ(AWS)
+    - EC2(サービス稼働基盤)
+    - Route53・EIP(独自ドメイン)
+  - データベース
+    - MySql
+  - 開発環境
+    - WEBサーバー　Nginx
+    - APPサーバー　Puma
 
-* Configuration
+***
+- 機能一覧
+  - かんたんログイン
+  - 画像アップロード(carrierwave))
+  - アカウント同士のフォロー
+  - 投稿へのコメント
+  - 投稿の下書き
+  - カテゴリー
+  - ページネーション（予定）
 
-* Database creation
+# 使用技術について
+### AWS
+EC2上(Ubuntu18.04)でDjango・Gunicorn・Nginxで動いています。静的ファイルへのアクセスはNginx→CloudFrontで配信しています。
+AWS上に環境を構築する際に並行してTCP/IPの書籍を学習することでネットワークの知識を深めることができました。
+また、EC2上で各種サービスを動作させることで、Linuxに関する知識を手を動かすことで習得できました。
+***
 
-* Database initialization
+### テスト
+これまでDjangodeテストを記述したことがなかったため、この機会にテストコードをしっかり書いてみました。
+テスト環境/CI環境用に設定ファイルを分けたりと、色々ためになりました。
+***
 
-* How to run the test suite
+### Ruby
+ポートフォリオ作成にあたりPythonの基礎的な文法およびPythonicなコードの書き方を学習しました。
+しかしながら、現状使いこなせていないことも多いため今後も学習していきます。
+***
 
-* Services (job queues, cache servers, search engines, etc.)
+### Docker
+Docker/Docker-Composeを使用し開発を行いました。また、Dockerイメージを軽量化するためにLinterの使用したり
+ビルド時の中間レイヤを減らすようDockerfileを記述しました。
+***
 
-* Deployment instructions
+# 工夫点
+特に工夫したところを紹介します。
 
-* ...
-# changes
+### 投稿した画像の表示
+技術的にはかんたんなことではありますが、このアプリの一番の注目点です。マウスオーバーで画像が変化します。
+***
+
+# 反省点
+- 学習3ヶ月目、1ヶ月間で作成したが計画よりも機能が少なくなってしまった。2019/12/22時点
+- エラーを撲滅したい。　2019/12/22
+- APIを使用した機能を実装したい。　2019/12/22
+- Docker、CircleCIを使用してデプロイしたい。　2019/12/22
+- 
