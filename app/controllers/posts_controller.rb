@@ -1,5 +1,8 @@
 class PostsController < ApplicationController
 
+    before_action :login_check, only: [:new, :edit, :update, :destroy]
+
+
     def lp
         @posts = Post.pablish
         render layout: false
@@ -65,6 +68,13 @@ class PostsController < ApplicationController
 
     def post_params
         params.require(:post).permit(:before_img, :after_img, :caption, :category_id, :owned_tag_id, :page_views, :title, :time_quantity, :time_unit)
+    end
+
+    def login_check
+        unless user_signed_in?
+            flash[:alert] = "ログインしてください"
+            redirect_to new_user_session_path
+        end
     end
 
 end
