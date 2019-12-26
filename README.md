@@ -1,6 +1,6 @@
 
 # ポートフォリオURL
-<a href="http://changes.work/posts/lp" target="_blank">CHANGES!</a>
+<a href="http://changes.work" target="_blank">CHANGES!</a>
 
 # 概要
 changes(チェンジーズ)は、身の回りの「変化」をシェアするサービスです。
