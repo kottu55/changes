@@ -79,6 +79,8 @@ gem 'jquery-rails'
 gem 'faker'
 gem 'gimei'
 gem 'font-awesome-sass', '~> 5.4.1'
+gem 'ratyrate'
+
 
 
 group :production do
